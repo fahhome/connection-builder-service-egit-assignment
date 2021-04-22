@@ -18,7 +18,7 @@ public class FlightSchedule {
     @GeneratedValue
     private int id;
 
-    String flightNo;
+    String flight_no;
     String departure_airport;
     String arrival_airport;
     String departure_time;
