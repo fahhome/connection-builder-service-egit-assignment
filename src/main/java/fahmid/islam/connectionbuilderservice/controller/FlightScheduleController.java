@@ -1,5 +1,6 @@
 package fahmid.islam.connectionbuilderservice.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import fahmid.islam.connectionbuilderservice.dto.JoinRequest;
 import fahmid.islam.connectionbuilderservice.dto.JoinResponse;
 import fahmid.islam.connectionbuilderservice.entity.*;
 import fahmid.islam.connectionbuilderservice.service.*;
@@ -31,8 +33,21 @@ public class FlightScheduleController {
     }
 
     @PostMapping("/connectingFlights")
-    public List<JoinResponse> getConnectingFlights(){
-        return flightScheduleService.getConnectingFlights();
+    public List<JoinResponse> getConnectingFlights(@RequestBody JoinRequest joinRequest){
+
+        List<JoinResponse> allConnectingFlights=  flightScheduleService.getConnectingFlights();
+        List<JoinResponse> filteredConnectingFlights = new LinkedList<>();
+        System.out.println("Filtering");
+
+        allConnectingFlights.stream().filter(row -> row != null)
+                                     .filter(row -> row.getFirstDepAirport().equals(joinRequest.getFromAirport()) && row.getSecondArrAirport().equals(joinRequest.getToAirport()))
+                                     .filter(row -> row.getDifferenceOfCriticalTime() >= 2 && row.getDifferenceOfCriticalTime() <=8)
+                                     .forEachOrdered(row -> filteredConnectingFlights.add(row));
+
+        System.out.println("Filtering done");
+
+        return filteredConnectingFlights;
+
     }
 
     @GetMapping("/flightSchedule/{id}")
@@ -54,4 +69,5 @@ public class FlightScheduleController {
     public String deleteFlightSchedule(@PathVariable int id) {
         return flightScheduleService.deleteFlightScheduleById(id);
     }
+
 }
