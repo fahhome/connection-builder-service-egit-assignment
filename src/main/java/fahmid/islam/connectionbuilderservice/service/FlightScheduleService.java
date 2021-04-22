@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fahmid.islam.connectionbuilderservice.dao.*;
+import fahmid.islam.connectionbuilderservice.dto.JoinResponse;
 import fahmid.islam.connectionbuilderservice.entity.*;
 
 //Lombok Boilerplate code is injected at compile time hance mvn clean install is success 
@@ -32,6 +33,10 @@ public class FlightScheduleService {
         return flightScheduleRepository.findAll();
     }
 
+    public List<JoinResponse> getConnectingFlights(){
+        return flightScheduleRepository.getJoinInformation();
+    }
+
     public FlightSchedule updateFlightSchedule(FlightSchedule flightSchedule) {
         FlightSchedule oldFlightSchedule = null;
         Optional<FlightSchedule> optionalflightSchedule = flightScheduleRepository.findById(flightSchedule.getId());
@@ -43,6 +48,7 @@ public class FlightScheduleService {
         }
         return oldFlightSchedule;
     }
+
 
     public String deleteFlightScheduleById(int id) {
         flightScheduleRepository.deleteById(id);

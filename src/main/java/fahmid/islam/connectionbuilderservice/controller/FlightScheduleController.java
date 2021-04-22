@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import fahmid.islam.connectionbuilderservice.dto.JoinResponse;
 import fahmid.islam.connectionbuilderservice.entity.*;
 import fahmid.islam.connectionbuilderservice.service.*;
 
@@ -27,6 +28,11 @@ public class FlightScheduleController {
     @PostMapping("/addFlightSchedules")
     public List<FlightSchedule> addFlightSchedules(@RequestBody List<FlightSchedule> flightSchedules) {
         return flightScheduleService.createFlightSchedules(flightSchedules);
+    }
+
+    @PostMapping("/connectingFlights")
+    public List<JoinResponse> getConnectingFlights(){
+        return flightScheduleService.getConnectingFlights();
     }
 
     @GetMapping("/flightSchedule/{id}")

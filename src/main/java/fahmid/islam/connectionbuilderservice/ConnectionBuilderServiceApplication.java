@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ConnectionBuilderServiceApplication {
 
 	public static void main(String[] args) {
-		System.out.println("Connection builder Service");
+		System.out.println("Connection builder Service - check connecting flights");
 		SpringApplication.run(ConnectionBuilderServiceApplication.class, args);
 	}
 
