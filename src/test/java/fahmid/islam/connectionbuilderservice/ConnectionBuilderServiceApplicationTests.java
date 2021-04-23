@@ -21,7 +21,7 @@ class ConnectionBuilderServiceApplicationTests {
 
 	@Test
 	public void testLoadDataForTestClass() {
-		assertEquals(2, flightScheduleService.getFlightSchedules().size());
+		assertEquals(5, flightScheduleService.getFlightSchedules().size());
 	}
 
 }
