@@ -10,7 +10,7 @@ import fahmid.islam.connectionbuilderservice.dao.*;
 import fahmid.islam.connectionbuilderservice.dto.JoinResponse;
 import fahmid.islam.connectionbuilderservice.entity.*;
 
-//Lombok Boilerplate code is injected at compile time hance mvn clean install is success 
+//Lombok Boilerplate code is injected at compile time hence mvn clean install is success 
 
 @Service
 public class FlightScheduleService {

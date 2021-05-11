@@ -23,8 +23,15 @@ import fahmid.islam.connectionbuilderservice.service.*;
 @RequestMapping(value="/connectionservice")
 @CrossOrigin
 public class FlightScheduleController {
+
     @Autowired
     private FlightScheduleService flightScheduleService;
+
+    @Autowired
+    private PatientService patientService; 
+
+    @Autowired
+    private AppointmentService appointmentService; 
 
     @PostMapping("/addFlightSchedule")
     public FlightSchedule addFlightSchedule(@RequestBody FlightSchedule flightSchedule) {
@@ -43,10 +50,15 @@ public class FlightScheduleController {
         List<JoinResponse> filteredConnectingFlights = new LinkedList<>();
         System.out.println("Filtering");
 
-        allConnectingFlights.stream().filter(row -> row != null)
-                                     .filter(row -> row.getFirstDepAirport().equals(joinRequest.getFromAirport()) && row.getSecondArrAirport().equals(joinRequest.getToAirport()))
-                                     .filter(row -> row.getDifferenceOfCriticalTime() >= 2 && row.getDifferenceOfCriticalTime() <=8)
-                                     .forEachOrdered(row -> filteredConnectingFlights.add(row));
+        if(joinRequest.getFromAirport().length() > 0 || joinRequest.getToAirport().length() > 0){
+            allConnectingFlights.stream()
+                                .filter(row -> row != null)
+                                .filter(row -> row.getFirstDepAirport().contains(joinRequest.getFromAirport())
+                                        && row.getSecondArrAirport().contains(joinRequest.getToAirport()))
+                                .filter(row -> row.getDifferenceOfCriticalTime() >= 2 && row.getDifferenceOfCriticalTime() <= 8)
+                                .forEachOrdered(row -> filteredConnectingFlights.add(row));
+        }
+        
 
         System.out.println("Filtering done");
 
@@ -73,5 +85,32 @@ public class FlightScheduleController {
     public String deleteFlightSchedule(@PathVariable int id) {
         return flightScheduleService.deleteFlightScheduleById(id);
     }
+
+
+    // PatientService
+
+    @PostMapping("/addPatient")
+    public Patient addPatient(@RequestBody Patient patient) {
+        return patientService.createPatient(patient);
+    }
+
+    @GetMapping("/getPatients")
+    public List<Patient> getPatients() {
+        return patientService.getPatients();
+    }
+
+    // Appointment Service 
+
+    @PostMapping("/addAppointment")
+    public Appointment addAppointment(@RequestBody Appointment appointment) {
+        return appointmentService.createAppointment(appointment);
+    }
+
+    @GetMapping("/getAppointments")
+    public List<Appointment> getAppointments(){
+        return appointmentService.getAppointments();
+    }
+
+
 
 }
